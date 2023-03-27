@@ -1,5 +1,5 @@
 {
-  "name": "@yaanetechjwt",
+  "name": "@yaanetechjwt/auth",
   "version": "1.0.28",
   "description": "",
   "main": "./build/index.js",
