@@ -1,6 +1,7 @@
 
 import { Request,Response,NextFunction } from "express"
 import jwt from "jsonwebtoken"
+import { InvalidCredentialError } from "../errors/InvalidCredential"
 
 interface userPayload {
     email:string,
@@ -11,23 +12,29 @@ interface userPayload {
 declare global{
     namespace Express{
        interface Request{
-           currentUser:userPayload | null
+           currentUser:any | null
        }  
     }
 }
 
 export const currentUser = function(req:Request,res:Response,next:NextFunction){
-  if(req.session?.jwt! == null ||  req.session?.jwt! == undefined){
-    console.log(req.session?.jwt,"not_jwt");
-    
+  if(req.session?.access_token! == null ||  req.session?.access_token! == undefined){    
     req.currentUser = null 
     next()
   }
-  const decodeJwt=jwt.verify(req.session?.jwt,process.env.JWTAUTH!) as userPayload
-  req.currentUser = decodeJwt 
-  console.log('decodejwt',req.currentUser);
+  try{
+    let verfiy_access_token = jwt.verify(req.session?.access_token,'demo_login')
+    if(verfiy_access_token){
+      
+      const decodeJwt= verfiy_access_token
+      req.currentUser = decodeJwt 
+      next()  
+    }
+  }
+  catch(err){
+      throw new InvalidCredentialError()
+  }
   
-  next()
 
 }
 
