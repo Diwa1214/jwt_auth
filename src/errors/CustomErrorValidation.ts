@@ -7,6 +7,6 @@
      super()
    }
 
-   abstract serializeError():{message:string,field?:string}[]
+   abstract serializeError():{message:string,field?:string,statusCode?:number}[]
 }
 

@@ -9,6 +9,6 @@ export class InvalidCredentialError extends CustomErrorValidation{
     }
 
     serializeError() {
-        return [{message:"Invalid credentials"}]
+        return [{message:"Invalid credentials",statusCode:this.statusCode}]
     }
 }

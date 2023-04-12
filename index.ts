@@ -3,7 +3,7 @@ import express from "express"
 import jwt from  "jsonwebtoken"
 import { Auth, RequestErrorHandling } from "./src"
 import { currentUser } from "./src/middleware/current-user"
-import { jwt_sign, refresh_token } from "./src/middleware/jwt-signin"
+import { generateToken,refreshToken } from "./src/middleware/jwt-signin"
 
 
 const app = express()
@@ -35,26 +35,27 @@ app.post("/demo_login",async(req,res)=>{
       payload:payload,
       session: true,
       secret_key:'demo_login',
-      expireIn:"10s",
+      expireIn:"25s",
       refresh_token:{
-         expireIn:"40s"
+         expireIn:"80s"
       }
    }
-  let token = await jwt_sign<userPayload>(req,data)
+  let token = await generateToken<userPayload>(req,data)
   return res.status(200).send(token)
 })
 
-app.get("/current", currentUser, (req,res)=>{
+app.get("/current", currentUser, Auth,(req,res)=>{
    return res.send(req.currentUser)
 })
 
-app.get('/refresh_token',async(req,res)=>{
-      let new_token = await refresh_token<userPayload>(req);
-      return res.send(new_token)
+app.get('/refresh_token', (req,res)=>{
+   let token = refreshToken<userPayload>(req,"25s",false);
+   return res.send(token)
 })
 
 app.post("/logout", (req,res)=>{
    req.session = null
+   req.headers.authorization = undefined
    return res.send(req.currentUser)
 })
 
@@ -66,7 +67,15 @@ app.get("/verify",(req,res)=>{
 
 app.use(RequestErrorHandling)
 
+const startFunction = function(){
+   // if(process.env.JWT_AUTH! == undefined){
+   //    throw new Error("jwt is not defined") 
+   // }
 
-app.listen(3000,()=>{
-   console.log("Connected successfully")
-})
+
+   app.listen(3000,()=>{
+      console.log("Connected successfully")
+   })
+}
+
+startFunction()
