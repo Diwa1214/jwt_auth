@@ -25,8 +25,3 @@ __exportStar(require("./middleware/current-user"), exports);
 __exportStar(require("./middleware/error_handler"), exports);
 __exportStar(require("./middleware/validate-error"), exports);
 __exportStar(require("./middleware/jwt-signin"), exports);
-// This is for events
-__exportStar(require("./nats/interface/base_event_type"), exports);
-__exportStar(require("./nats/interface/subject"), exports);
-__exportStar(require("./nats/listener/BaseListener"), exports);
-__exportStar(require("./nats/publisher/BasePublisher"), exports);

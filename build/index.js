@@ -35,9 +35,9 @@ app.post("/demo_login", (req, res) => __awaiter(void 0, void 0, void 0, function
         payload: payload,
         session: true,
         secret_key: 'demo_login',
-        expireIn: "25s",
+        expireIn: "10s",
         refresh_token: {
-            expireIn: "80s"
+            expireIn: "200s"
         }
     };
     let token = yield (0, jwt_signin_1.generateToken)(req, data);
@@ -47,7 +47,7 @@ app.get("/current", current_user_1.currentUser, src_1.Auth, (req, res) => {
     return res.send(req.currentUser);
 });
 app.get('/refresh_token', (req, res) => {
-    let token = (0, jwt_signin_1.refreshToken)(req, "25s", false);
+    let token = (0, jwt_signin_1.refreshToken)(req, "25s", true);
     return res.send(token);
 });
 app.post("/logout", (req, res) => {

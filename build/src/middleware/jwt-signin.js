@@ -59,9 +59,9 @@ const refreshToken = (req, expireIn, session) => {
         else if (((_a = req.session) === null || _a === void 0 ? void 0 : _a.refresh_token) !== null) {
             token = (_b = req.session) === null || _b === void 0 ? void 0 : _b.refresh_token;
         }
-        console.log(token, "token");
         if (token !== null || token !== undefined) {
             let verify_refresh_token = jsonwebtoken_1.default.verify(token, process.env.JWT_AUTH);
+            console.log(verify_refresh_token.user, "users");
             if (verify_refresh_token) {
                 let decodeJwt = verify_refresh_token.user;
                 let payload = {
@@ -79,6 +79,7 @@ const refreshToken = (req, expireIn, session) => {
         }
     }
     catch (err) {
+        console.log(err);
         throw new InvalidTokenError_1.InvalidTokenError("refresh token get expired kindly login again");
     }
 };
