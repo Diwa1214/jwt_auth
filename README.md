@@ -1,1 +1,1 @@
-<h1>Welcome to the page</h1>
+<h1>Welcome to the page <span>Dynamic Authentication</span></h1>
