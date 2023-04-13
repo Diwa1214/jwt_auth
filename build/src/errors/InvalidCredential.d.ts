@@ -4,5 +4,6 @@ export declare class InvalidCredentialError extends CustomErrorValidation {
     constructor();
     serializeError(): {
         message: string;
+        statusCode: number;
     }[];
 }

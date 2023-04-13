@@ -8,7 +8,7 @@ class InvalidCredentialError extends CustomErrorValidation_1.CustomErrorValidati
         this.statusCode = 401;
     }
     serializeError() {
-        return [{ message: "Invalid credentials" }];
+        return [{ message: "Invalid credentials", statusCode: this.statusCode }];
     }
 }
 exports.InvalidCredentialError = InvalidCredentialError;

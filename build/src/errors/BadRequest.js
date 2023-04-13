@@ -10,7 +10,8 @@ class BadRequest extends CustomErrorValidation_1.CustomErrorValidation {
     }
     serializeError() {
         return [{
-                "message": this.message
+                "message": this.message,
+                "statusCode": this.statusCode
             }];
     }
 }

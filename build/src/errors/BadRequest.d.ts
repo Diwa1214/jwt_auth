@@ -5,5 +5,6 @@ export declare class BadRequest extends CustomErrorValidation {
     constructor(message: string);
     serializeError(): {
         message: string;
+        statusCode: number;
     }[];
 }

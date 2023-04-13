@@ -35,12 +35,12 @@ app.post("/demo_login",async(req,res)=>{
       payload:payload,
       session: true,
       secret_key:'demo_login',
-      expireIn:"25s",
+      expireIn:"10s",
       refresh_token:{
-         expireIn:"80s"
+         expireIn:"200s"
       }
    }
-  let token = await generateToken<userPayload>(req,data)
+  let token = await generateToken(req,data)
   return res.status(200).send(token)
 })
 
@@ -49,7 +49,7 @@ app.get("/current", currentUser, Auth,(req,res)=>{
 })
 
 app.get('/refresh_token', (req,res)=>{
-   let token = refreshToken<userPayload>(req,"25s",false);
+   let token = refreshToken(req,"25s",true);
    return res.send(token)
 })
 

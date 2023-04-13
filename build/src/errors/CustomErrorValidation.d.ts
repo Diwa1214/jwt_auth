@@ -4,5 +4,6 @@ export declare abstract class CustomErrorValidation extends Error {
     abstract serializeError(): {
         message: string;
         field?: string;
+        statusCode?: number;
     }[];
 }

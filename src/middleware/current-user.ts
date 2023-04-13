@@ -23,7 +23,6 @@ declare global{
 
 export const currentUser = function(req:Request,res:Response,next:NextFunction){
   let token = null
-  console.log(req.session,req.headers.authorization)
   if(req.headers.authorization !== undefined){
     const authHeader = req.headers.authorization
     if(authHeader && authHeader.startsWith("Bearer")){

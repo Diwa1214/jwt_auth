@@ -23,8 +23,8 @@ interface Payload {
 
 
 
-interface RefreshTokenPayload<T>  {
-   user: T;
+interface RefreshTokenPayload  {
+   user: object;
 }
 
 interface result {
@@ -40,9 +40,9 @@ app.use(cookieSession({
 }))
 
 
-export const generateToken = async <T> (req:Request,data:Payload):Promise<any>=>{
+export const generateToken = async  (req:Request,data:Payload):Promise<any>=>{
    try{
-      const payload:RefreshTokenPayload<T> ={
+      const payload:RefreshTokenPayload ={
          'user':data.payload
       }
       let access_token = await jwt.sign(payload,data.secret_key,{expiresIn:data?.expireIn})
@@ -60,7 +60,7 @@ export const generateToken = async <T> (req:Request,data:Payload):Promise<any>=>
    }   
 }
 
-export const refreshToken  =  <T> (req:Request,expireIn:string,session:boolean)=>{
+export const refreshToken  =   (req:Request,expireIn:string,session:boolean)=>{
    try{
       let token = null 
       if(req.headers.authorization !== undefined){
@@ -74,9 +74,9 @@ export const refreshToken  =  <T> (req:Request,expireIn:string,session:boolean)=
       else if(req.session?.refresh_token! !== null){
            token = req.session?.refresh_token
       }
-      console.log(token,"token")
       if(token !== null || token !== undefined){
-         let verify_refresh_token = jwt.verify(token!,process.env.JWT_AUTH!) as RefreshTokenPayload<T>      
+         let verify_refresh_token = jwt.verify(token!,process.env.JWT_AUTH!) as RefreshTokenPayload 
+         console.log(verify_refresh_token.user,"users")
          if(verify_refresh_token){
             let decodeJwt = verify_refresh_token.user
             let payload = {
@@ -98,6 +98,7 @@ export const refreshToken  =  <T> (req:Request,expireIn:string,session:boolean)=
          
    }
    catch(err){   
+      console.log(err)
       throw new InvalidTokenError("refresh token get expired kindly login again")
    }  
 
